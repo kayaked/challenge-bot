@@ -284,7 +284,7 @@ class accounts(commands.Cog):
         await ctx.author.send('Record successfully submitted to the list team.')
     
     @commands.command(name='record')
-    @commands.has_permissions(ban_members=True)
+    @commands.has_role('List Helper')
     async def record(self, ctx, ar, rid:int, *, reason=''):
 
         if ar.lower() in ['approved', 'approve', 'accept']:
