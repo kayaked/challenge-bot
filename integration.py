@@ -210,7 +210,7 @@ class accounts(commands.Cog):
             return msg.channel.id == ctx.author.dm_channel.id and msg.author.id == ctx.author.id
         
         try:
-            await ctx.author.send('__Record Addition Form__\nThe following DM form will help you add a record to the list.\nWhat is your in-game username? (case-sensitive)')
+            await ctx.author.send('__Record Addition Form__\nThe following DM form will help you add a record to the list. This can be cancelled at any time using `,cancel`.\nWhat is your in-game username? (case-sensitive)')
             user = await self.bot.wait_for('message', check=check, timeout=60)
             if user.content == ',cancel': return await ctx.author.send(cancel)
             await ctx.author.send('What is the in-game name of the challenge?')
