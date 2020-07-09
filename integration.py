@@ -219,7 +219,11 @@ class accounts(commands.Cog):
             levela = await db.levels.find_one({'name': re.compile(level_name.content, re.IGNORECASE)})
             if not levela:
                 return await ctx.author.send('Oops! This level is not on the list. Please add this level to the list or correct the level name.')
-            level_name = levela['name']
+            if level_name in [r['name'].lower() for r in levela]:
+                levelb = levela[[r['name'].lower() for r in levela].index(level_name.lower())]
+            else:
+                levelb = levela[0]
+            level_name = levelb['name']
             await ctx.author.send('Please provide a link to a video of this completion.')
             video = await self.bot.wait_for('message', check=check, timeout=60)
             if video.content == ',cancel': return await ctx.author.send(cancel)
