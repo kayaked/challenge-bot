@@ -219,6 +219,8 @@ class accounts(commands.Cog):
             levela = await db.levels.find({'name': re.compile(level_name.content, re.IGNORECASE)}).to_list(length=None)
             if not levela:
                 return await ctx.author.send('Oops! This level is not on the list. Please add this level to the list or correct the level name.')
+            print(levela)
+            print(level_name.content)
             if level_name.content in [r['name'].lower() for r in levela]:
                 levelb = levela[[r['name'].lower() for r in levela].index(level_name.content.lower())]
             else:
