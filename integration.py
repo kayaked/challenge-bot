@@ -221,7 +221,7 @@ class accounts(commands.Cog):
                 return await ctx.author.send('Oops! This level is not on the list. Please add this level to the list or correct the level name.')
             print(levela)
             print(level_name.content)
-            if level_name.content in [r['name'].lower() for r in levela]:
+            if level_name.content.lower() in [r['name'].lower() for r in levela]:
                 levelb = levela[[r['name'].lower() for r in levela].index(level_name.content.lower())]
             else:
                 levelb = levela[0]
