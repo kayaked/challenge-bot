@@ -165,7 +165,7 @@ class accounts(commands.Cog):
         records_length = await db.records.count_documents({})
         records = await db.records.find().to_list(length=records_length)
         levels_length = await db.records.count_documents({})
-        levels = await db.levels.find().to_list(length=levels_length)
+        levels = await db.levels.find({'placement': {'$lte': 50}}).to_list(length=levels_length)
 
         records_list = {}
         for record in records:
