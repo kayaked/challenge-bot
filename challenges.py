@@ -75,9 +75,23 @@ class challenges(commands.Cog):
         
         loading = await ctx.send('Challenge pending addition, please wait...')
 
-        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as sesh:
-            async with sesh.get(f"https://gdbrowser.com/api/level/{level_id.content}") as resp:
-                level_info = await resp.json()
+        try:
+            async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as sesh:
+                async with sesh.get(f"https://gdbrowser.com/api/level/{level_id.content}") as resp:
+                    level_info = await resp.json()
+            level_name = level_info.get('name', 'Unknown')
+            level_publisher = level_info.get('author', 'Unknown')
+        except:
+            try:
+                await ctx.send('**ERROR** This level was not found on the GD servers. Either put in the following information manually or try again later.\nWhat is the name of this challenge? (case-sensitive)')
+                level_name = (await self.bot.wait_for('message', check=chcheck, timeout=60)).content
+                if level_name.content == ',cancel': return await ctx.send(cancel)
+                await ctx.send('Whose account is this challenge published on?')
+                level_publisher = (await self.bot.wait_for('message', check=chcheck, timeout=60)).content
+                if level_publisher.content == ',cancel': return await ctx.send(cancel)
+            except:
+                return await ctx.send("Oops! Response took too long.")
+                
         
         await db.levels.update_many(
             {'placement': {'$gt': int(placement.content)-1}},
@@ -85,13 +99,13 @@ class challenges(commands.Cog):
         )
 
         funny_level = {
-            'name': level_info.get('name', 'Unknown'),
+            'name': level_name,
             'placement': int(placement.content),
             'verifier': verifier.content,
             'creators': creators.content.split(', '),
             'video': video.content,
             'id': level_id.content,
-            'publisher': level_info.get('author', 'Unknown')
+            'publisher': level_publisher
         }
 
         await db.levels.insert_one(funny_level)
