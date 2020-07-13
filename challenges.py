@@ -85,10 +85,10 @@ class challenges(commands.Cog):
             try:
                 await ctx.send('**ERROR** This level was not found on the GD servers. Either put in the following information manually or try again later.\nWhat is the name of this challenge? (case-sensitive)')
                 level_name = (await self.bot.wait_for('message', check=chcheck, timeout=60)).content
-                if level_name.content == ',cancel': return await ctx.send(cancel)
+                if level_name == ',cancel': return await ctx.send(cancel)
                 await ctx.send('Whose account is this challenge published on?')
                 level_publisher = (await self.bot.wait_for('message', check=chcheck, timeout=60)).content
-                if level_publisher.content == ',cancel': return await ctx.send(cancel)
+                if level_publisher == ',cancel': return await ctx.send(cancel)
             except:
                 return await ctx.send("Oops! Response took too long.")
                 
