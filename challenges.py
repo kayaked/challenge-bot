@@ -243,6 +243,10 @@ class challenges(commands.Cog):
         victors = await db.records.find({'challenge': result['name']}).to_list(length=100)
         victor_field = ', '.join([f'[{i["player"]}]({i["video"]})' for i in victors if i['player'] != result['verifier'] and i['status'] == 'approved'])
         
+        if result['placement'] <= 50:
+            points = '%.2f' % (-(.08*result['placement']-6)**3+5)
+        else:
+            points = 'N/A'
         structure = discord.Embed.from_dict({
             **self.bot.footer(ctx.author),
             'title': f'#{result["placement"]} ' + result['name'] + ' by ' + result['publisher'],
@@ -265,7 +269,7 @@ class challenges(commands.Cog):
                 },
                 {
                     'name': 'Points',
-                    'value': '%.2f' % (-(.08*result['placement']-6)**3+5),
+                    'value': points,
                     'inline': True
                 },
                 {
