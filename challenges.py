@@ -111,6 +111,15 @@ class challenges(commands.Cog):
         await db.levels.insert_one(funny_level)
         await self.log_level('added', funny_level)
 
+        id_to = await db.counts.find_one_and_update({'name': 'recordCount'}, {'$inc': {'value': 1}})
+        await db.records.insert_one({
+            'player': verifier.content,
+            'challenge': level_name,
+            'video': video.content,
+            'status': 'approved',
+            '_id': id_to['value']+1
+        })
+
         await ctx.send('Setup completed successfully.')
     
     @commands.command(name='remove_level')
