@@ -143,7 +143,7 @@ class moderation(commands.Cog):
         return user
 
     @commands.command(name='unban', aliases=['pardon'])
-    @commands.has_role('List Helper')
+    @commands.has_role('List Mod')
     async def unban_cmd(self, ctx, user, *, reason='N/A'):
         member = await self.get_member(user)
         if not member:
@@ -152,7 +152,7 @@ class moderation(commands.Cog):
         await self.unban(user, reason)
 
     @commands.command(name='listban', aliases=['ban', 'tempban', 'permban'])
-    @commands.has_role('List Helper')
+    @commands.has_role('List Mod')
     async def ban(self, ctx, user, timevalue='99y', *, reason="None"):
         user = await self.get_member(user)
         if not user:
