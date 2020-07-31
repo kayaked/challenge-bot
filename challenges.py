@@ -47,7 +47,7 @@ class challenges(commands.Cog):
         }))
 
     @commands.command(name='add_level', aliases=['add_challenge', 'addlevel'])
-    @commands.has_role('List Helper')
+    @commands.has_role('List Mod')
     async def add_level(self, ctx):
         def chcheck(msg):
             return msg.channel.id == ctx.channel.id and msg.author.id == ctx.author.id
@@ -123,7 +123,7 @@ class challenges(commands.Cog):
         await ctx.send('Setup completed successfully.')
     
     @commands.command(name='remove_level')
-    @commands.has_role('List Helper')
+    @commands.has_role('List Mod')
     async def remove_level(self, ctx, aspect:str='', *, value:str=''):
         if aspect not in ['placement', 'name', 'id']:
             return await ctx.send('Invalid identifier! Please remove a level based on its `placement`, `name`, or `id`.\nExample: `,remove_level placement 33` `,remove_level name Georgia Chamber` `,remove_level id 59859310`')
@@ -141,7 +141,7 @@ class challenges(commands.Cog):
         await ctx.send(f'Successfully updated list by removing level `{deleted_level["name"]}`.')
     
     @commands.command(name='move_level', aliases=['place_level'])
-    @commands.has_role('List Helper')
+    @commands.has_role('List Mod')
     async def move_level(self, ctx, aspect:str='', *, value):
 
         def check(msg):
