@@ -42,7 +42,7 @@ class daily(commands.Cog):
         return user
 
     @commands.command(name='add_stars', aliases=['add_coolstars', 'add_cool_stars', 'add_star', 'give_stars'])
-    @commands.has_role('List Helper')
+    @commands.has_role('List Mod')
     async def add_stars(self, ctx, user=None, number:int=0):
         if not user or not number:
             return await ctx.send('Please provide both a user to add points to and a point value. Examples:\n`,remove_stars paqoe 3`\n`,add_stars "Nyan Cat" 4`')
@@ -68,7 +68,7 @@ class daily(commands.Cog):
         await loading.edit(content=message + '✅')
     
     @commands.command(name='remove_stars', aliases=['remove_coolstars', 'remove_cool_stars', 'remove_star'])
-    @commands.has_role('List Helper')
+    @commands.has_role('List Mod')
     async def remove_stars(self, ctx, user, number:int):
         await self.add_stars(ctx, user, number*-1)
     
