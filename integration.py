@@ -142,7 +142,7 @@ class accounts(commands.Cog):
         return None
     
     @commands.command(name='verify')
-    @commands.has_role('List Helper')
+    @commands.has_role('List Mod')
     async def verify(self, ctx, gd=None, discord=None):
         if not gd or not discord:
             return await ctx.send('Missing a GD or Discord account, check command! Correct formatting is `,verify <gd> <Discord>`')
@@ -290,7 +290,7 @@ class accounts(commands.Cog):
         await ctx.author.send('Record successfully submitted to the list team.')
     
     @commands.command(name='record')
-    @commands.has_role('List Helper')
+    @commands.has_role('List Mod')
     async def record(self, ctx, ar, rid:int, *, reason=''):
 
         if ar.lower() in ['approved', 'approve', 'accept']:
