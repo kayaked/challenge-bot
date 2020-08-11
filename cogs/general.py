@@ -84,7 +84,15 @@ HELP = {
     },
     'verify': {
         'main': 'Verify a user\'s discord account with their records.',
-        'example': ['update_channel suggest #channel', 'update_channel records #channel']
+        'example': ['verify <gd_username> @Discord']
+    },
+    'record_lookup': {
+        'main': 'Look up a record ID for a certain user\'s completion of a challenge',
+        'example': ['record_lookup <player> <challenge>', 'record_lookup Andrew7171 D']
+    },
+    'list_submissions': {
+        'main': 'View unapproved and unrejected challenges waiting for review',
+        'example': ['list_submissions']
     }
 }
 
