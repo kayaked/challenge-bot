@@ -289,6 +289,22 @@ class accounts(commands.Cog):
         }))
         await ctx.author.send('Record successfully submitted to the list team.')
     
+    @commands.command(name='record_lookup')
+    @commands.has_role('List Mod')
+    async def record_lookup(self, ctx, player, challenge):
+        record = await db.records.find_one({'player': re.compile(player, re.IGNORECASE), 'challenge': re.compile(challenge, re.IGNORECASE)})
+        if not record:
+            return await ctx.send('Record not found. Could be a bug with the command, as this is a new addition. Double-check the GD username and the Challenge name, and remember to use quotes around names with spaces.')
+        record_id = str(record.get('_id', 'unspecified'))
+        await ctx.send('The ID of this record is ' + record_id)
+    
+    @commands.command(name='list_submissions')
+    async def list_submissions(self, ctx):
+        unchecked = await db.records.find({'status': 'submitted'}).to_list(length=None)
+        unchecked_formatted = [record.get('challenge', 'N/A') + ' by ' + record.get('player', 'N/A') + ' (#' + str(record.get('id', 'N/A')) + ')' for record in unchecked]
+        message_of_submissions = '**List of challenges unreviewed by the team:**\n' + '\n'.join(unchecked_formatted)
+        await ctx.send(message_of_submissions)
+    
     @commands.command(name='record')
     @commands.has_role('List Mod')
     async def record(self, ctx, ar, rid:int, *, reason=''):
