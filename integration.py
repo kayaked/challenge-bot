@@ -301,7 +301,7 @@ class accounts(commands.Cog):
     @commands.command(name='list_submissions')
     async def list_submissions(self, ctx):
         unchecked = await db.records.find({'status': 'submitted'}).to_list(length=None)
-        unchecked_formatted = [record.get('challenge', 'N/A') + ' by ' + record.get('player', 'N/A') + ' (#' + str(record.get('id', 'N/A')) + ')' for record in unchecked]
+        unchecked_formatted = [record.get('challenge', 'N/A') + ' by ' + record.get('player', 'N/A') + ' (#' + str(record.get('_id', 'N/A')) + ')' for record in unchecked]
         message_of_submissions = '**List of challenges unreviewed by the team:**\n' + '\n'.join(unchecked_formatted)
         await ctx.send(message_of_submissions)
     
