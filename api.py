@@ -1,19 +1,18 @@
-from quart import Quart
+from bottle import route, run, response
 import json
-from motor import motor_asyncio
-client = motor_asyncio.AsyncIOMotorClient()
+from pymongo import MongoClient
+
+client = MongoClient()
 db = client['Discord']
 
-app = Quart(__name__)
-
-@app.route('/list')
+@route('/list')
 async def clist():
-    challenge_list = await db.levels.find({'placement': {'$lte': 50}}).to_list(length=50)
+    challenge_list = list(db.levels.find({'placement': {'$lte': 50}}))
     return challenge_list
 
-@app.route('/legacy')
+@route('/legacy')
 async def llist():
-    legacy_list = await db.levels.find({'placement': {'$gt': 50}}).to_list(length=50)
+    legacy_list = list(db.levels.find({'placement': {'$gt': 50}}))
     return legacy_list
 
-app.run(host='0.0.0.0', debug=True, port=80)
+run(host='0.0.0.0', port=80)
