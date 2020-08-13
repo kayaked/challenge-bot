@@ -8,12 +8,12 @@ app = Quart(__name__)
 
 @app.route('/list')
 async def clist():
-    #challenge_list = await db.levels.find({'placement': {'$lte': 50}}).to_list(length=50)
-    return {}
+    challenge_list = await db.levels.find({'placement': {'$lte': 50}}).to_list(length=50)
+    return challenge_list
 
 @app.route('/legacy')
 async def llist():
-    #legacy_list = await db.levels.find({'placement': {'$gt': 50}}).to_list(length=50)
-    return {}
+    legacy_list = await db.levels.find({'placement': {'$gt': 50}}).to_list(length=50)
+    return legacy_list
 
 app.run(host='0.0.0.0', debug=True, port=80)
