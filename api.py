@@ -8,11 +8,13 @@ db = client['Discord']
 @route('/list')
 async def clist():
     challenge_list = list(db.levels.find({'placement': {'$lte': 50}}))
-    return challenge_list
+    response.content_type = 'application/json'
+    return dumps(challenge_list)
 
 @route('/legacy')
 async def llist():
     legacy_list = list(db.levels.find({'placement': {'$gt': 50}}))
-    return legacy_list
+    response.content_type = 'application/json'
+    return dumps(legacy_list)
 
 run(host='0.0.0.0', port=80)
