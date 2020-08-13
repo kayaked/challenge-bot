@@ -16,4 +16,4 @@ async def llist():
     #legacy_list = await db.levels.find({'placement': {'$gt': 50}}).to_list(length=50)
     return {}
 
-app.run(debug=True, port=80)
+app.run(host='0.0.0.0', debug=True, port=80)
