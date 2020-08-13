@@ -17,4 +17,4 @@ async def llist():
     response.content_type = 'application/json'
     return json.dumps(legacy_list)
 
-run(host='0.0.0.0', port=80)
+run(host='0.0.0.0', port=80, debug=True)
