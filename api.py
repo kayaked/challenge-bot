@@ -6,13 +6,13 @@ client = MongoClient()
 db = client['Discord']
 
 @route('/list')
-async def clist():
+def clist():
     challenge_list = list(db.levels.find({'placement': {'$lte': 50}}))
     response.content_type = 'application/json'
     return json.dumps(challenge_list)
 
 @route('/legacy')
-async def llist():
+def llist():
     legacy_list = list(db.levels.find({'placement': {'$gt': 50}}))
     response.content_type = 'application/json'
     return json.dumps(legacy_list)
