@@ -15,3 +15,5 @@ async def clist():
 async def llist():
     legacy_list = await db.levels.find({'placement': {'$gt': 50}}).to_list(length=50)
     return legacy_list
+
+app.run(debug=True)
