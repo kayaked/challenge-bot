@@ -9,8 +9,8 @@ app = Bottle()
 
 @app.hook('after_request')
 def enable_cors():
-    response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
     response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token'
     response.headers['Access-Control-Allow-Methods'] = 'PUT, GET, POST, DELETE, OPTIONS'
 
 @app.route('/list')
@@ -18,6 +18,7 @@ def clist():
     challenge_list = list(db.levels.find({'placement': {'$lte': 50}}))
     for lvl in challenge_list:
         lvl['_id'] = str(lvl['_id'])
+    challenge_list = sorted(challenge_list, key=lambda i: i['placement'])
     response.content_type = 'application/json'
     return json.dumps(challenge_list)
 
@@ -26,6 +27,7 @@ def llist():
     legacy_list = list(db.levels.find({'placement': {'$gt': 50}}))
     for lvl in legacy_list:
         lvl['_id'] = str(lvl['_id'])
+    legacy_list = sorted(legacy_list, key=lambda i: i['placement'])
     response.content_type = 'application/json'
     return json.dumps(legacy_list)
 
