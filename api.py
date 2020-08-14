@@ -21,4 +21,4 @@ def llist():
     response.content_type = 'application/json'
     return json.dumps(legacy_list)
 
-run(host='0.0.0.0', port=80, debug=True)
+run(host='0.0.0.0', port=443, debug=True, server='gunicorn', keyfile='key.pem', certfile='cert.pem')
