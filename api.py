@@ -32,7 +32,7 @@ def llist():
     return json.dumps(legacy_list)
 
 @app.route('/level/<placement>')
-def level():
+def level(placement):
     try:
         pl = int(placement)
     except:
