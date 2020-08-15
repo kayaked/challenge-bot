@@ -38,7 +38,7 @@ def level(placement):
     except:
         return json.dumps({'error': 'dumbfuck'})
     level = db.levels.find_one({'placement': pl})
-    level['_id'] = str(lvl['_id'])
+    level['_id'] = str(level['_id'])
     records = list(db.records.find({'challenge': level['name']}))
     for record in records:
         record['_id'] = str(record['_id'])
