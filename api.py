@@ -38,7 +38,10 @@ def level(placement):
     except:
         return json.dumps({'error': 'dumbfuck'})
     level = db.levels.find_one({'placement': pl})
+    level['_id'] = str(lvl['_id'])
     records = list(db.records.find({'challenge': level['name']}))
+    for record in records:
+        record['_id'] = str(record['_id'])
     level['victors'] = [record for record in records if record['player'] != level['verifier']]
     return json.dumps(level)
 
