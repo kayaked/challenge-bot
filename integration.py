@@ -113,7 +113,7 @@ class accounts(commands.Cog):
                 )
                 embed.title += ' ✅'
                 embed.set_thumbnail(url=user_cord.avatar_url)
-                daily_records = await db.stars.find_one({'uid': int(user_account['discord'])})
+                daily_records = await db.stars.find_one({'name': user_account['gd']})
                 if daily_records:
                     embed.add_field(
                         name='Cool-Stars',
