@@ -113,7 +113,7 @@ class daily(commands.Cog):
                     placement_format = previous_placement
                 
                 name = str(key)
-                embed.add_field(name=str(placement_format) + '. ' + name.name, value='%.2f' % value)
+                embed.add_field(name=str(placement_format) + '. ' + name, value='%.2f' % value)
                 previous_value = value
                 previous_placement = placement_format
         await ctx.send(embed=embed)
