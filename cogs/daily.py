@@ -42,7 +42,7 @@ class daily(commands.Cog):
         return user
 
     @commands.command(name='add_stars', aliases=['add_coolstars', 'add_cool_stars', 'add_star', 'give_stars'])
-    @commands.has_role('List Mod')
+    @commands.has_role('Daily Manager')
     async def add_stars(self, ctx, user=None, number:int=0):
         if not user or not number:
             return await ctx.send('Please provide both a user to add points to and a point value. Examples:\n`,remove_stars paqoe 3`\n`,add_stars "Nyan Cat" 4`')
