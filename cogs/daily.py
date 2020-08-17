@@ -47,6 +47,7 @@ class daily(commands.Cog):
         if not old or not new:
             return await ctx.send('Please provide a valid old username and new username.')
         try:
+            await db.stars.delete_many({'name': new})
             await db.stars.find_one_and_update({
                 'name': old
             },
