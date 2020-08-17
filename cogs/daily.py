@@ -64,12 +64,12 @@ class daily(commands.Cog):
     async def add_stars(self, ctx, user=None, number:int=0):
         if not user or not number:
             return await ctx.send('Please provide both a user to add points to and a point value. Examples:\n`,remove_stars paqoe 3`\n`,add_stars "Nyan Cat" 4`')
-        user=str(user)
+        user=str(user).lower()
         message = f'Updating points for user {user}... '
         loading = await ctx.send(message)
         try:
             await db.stars.find_one_and_update({
-                'name': user
+                'name': re.compile(user, re.IGNORECASE)
             },
             {
                 '$set': {
