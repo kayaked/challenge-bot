@@ -40,24 +40,40 @@ class daily(commands.Cog):
             if not user_account: return None
             if 'discord' in user_account: user = await self.bot.fetch_user(user_account['discord'])
         return user
+    
+    @commands.command(name='daily_fix_name', aliases=['daily_fix_user'])
+    @commands.has_role('Daily Manager')
+    async def daily_fix_name(self, ctx, old=None, new=None):
+        if not old or not new:
+            return await ctx.send('Please provide a valid old username and new username.')
+        try:
+            await db.stars.find_one_and_update({
+                'name': old
+            },
+            {
+                '$set': {
+                    'name': new
+                }
+            })
+        except:
+            return await ctx.send('Failed to update username.')
+        await ctx.send('Updated username.')
 
     @commands.command(name='add_stars', aliases=['add_coolstars', 'add_cool_stars', 'add_star', 'give_stars'])
     @commands.has_role('Daily Manager')
     async def add_stars(self, ctx, user=None, number:int=0):
         if not user or not number:
             return await ctx.send('Please provide both a user to add points to and a point value. Examples:\n`,remove_stars paqoe 3`\n`,add_stars "Nyan Cat" 4`')
-        message = f'Updating points for user {str(user)}... '
-        user = await self.get_member(user)
-        if not user or type(user) == str:
-            return await ctx.send('Could not find user!')
+        user=str(user)
+        message = f'Updating points for user {user}... '
         loading = await ctx.send(message)
         try:
             await db.stars.find_one_and_update({
-                'uid': user.id
+                'name': user
             },
             {
                 '$set': {
-                    'uid': user.id
+                    'name': user
                 },
                 '$inc': {
                     'pt': number
