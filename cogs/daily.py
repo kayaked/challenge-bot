@@ -68,7 +68,7 @@ class daily(commands.Cog):
         await loading.edit(content=message + '✅')
     
     @commands.command(name='remove_stars', aliases=['remove_coolstars', 'remove_cool_stars', 'remove_star'])
-    @commands.has_role('List Mod')
+    @commands.has_role('Daily Manager')
     async def remove_stars(self, ctx, user, number:int):
         await self.add_stars(ctx, user, number*-1)
     
