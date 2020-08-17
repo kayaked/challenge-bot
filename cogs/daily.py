@@ -18,7 +18,7 @@ class daily(commands.Cog):
         stars_list = await db.stars.find().to_list(length=None)
         records_list = {}
         for i in stars_list:
-            records_list[i['uid']] = i['pt']
+            records_list[i['name']] = i['pt']
         sorted_list = {key: value for key, value in sorted(records_list.items(), key=lambda item: item[1], reverse=True)}
         return sorted_list
     
@@ -112,8 +112,7 @@ class daily(commands.Cog):
                 if previous_value == value:
                     placement_format = previous_placement
                 
-                name = ctx.guild.get_member(key)
-                if not name: name = await self.bot.fetch_user(key)
+                name = str(key)
                 embed.add_field(name=str(placement_format) + '. ' + name.name, value='%.2f' % value)
                 previous_value = value
                 previous_placement = placement_format
