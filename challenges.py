@@ -142,21 +142,17 @@ class challenges(commands.Cog):
     
     @commands.command(name='move_level', aliases=['place_level'])
     @commands.has_role('List Mod')
-    async def move_level(self, ctx, aspect:str='', *, value):
-
-        def check(msg):
-            return msg.channel.id == ctx.channel.id and msg.author.id == ctx.author.id
+    async def move_level(self, ctx, aspect:str='', value=None, new_placement=None):
         
         if aspect not in ['placement', 'name', 'id']:
             return await ctx.send('Invalid identifier! Please place a level based on its `placement`, `name`, or `id`.\nExample: `,move_level placement ')
         if not value:
-            return await ctx.send('Oops! No value was specified.')
+            return await ctx.send('Oops! No value was specified. \n`,move_level name "Level Name" 1`')
+        if not new_placement:
+            return await ctx.send('This command was recently changed to not use a form. Examples are below.\n`,move_level name "Sheol Death" 40` moves Sheol Death to #40.\n`,move_level placement 5 1` moves the level in placement 5 to placement 1.\n`,move_level id 15859369 1` changes placements by ID.')
         if aspect == 'placement': value = int(value)
 
-        await ctx.send('What is this level\'s new placement on the list?')
-        placement_message = await self.bot.wait_for('message', check=check, timeout=30)
-
-        placement = int(placement_message.content)
+        placement = int(new_placement)
 
         promise = await ctx.send('Editing the list...')
 
