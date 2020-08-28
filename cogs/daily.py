@@ -41,6 +41,21 @@ class daily(commands.Cog):
             if 'discord' in user_account: user = await self.bot.fetch_user(user_account['discord'])
         return user
     
+    @commands.command(name='stars', aliases=['coolstars', 'blobstars'])
+    @commands.has_role('Daily Manager')
+    async def coolstars(self, ctx, user=None):
+        if not user or not number:
+            return await ctx.send('Please provide both a user to add points to and a point value. Examples:\n`,remove_stars paqoe 3`\n`,add_stars "Nyan Cat" 4`')
+        user=str(user).lower()
+        try:
+            f = await db.stars.find_one({
+                'name': re.compile(user, re.IGNORECASE)
+            })
+        except:
+            pass
+        f_2 = f['pt']
+        await ctx.send(user + ' has ' + str(f_2) + ' daily stars')
+    
     @commands.command(name='daily_fix_name', aliases=['daily_fix_user'])
     @commands.has_role('Daily Manager')
     async def daily_fix_name(self, ctx, old=None, new=None):
