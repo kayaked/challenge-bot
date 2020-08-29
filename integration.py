@@ -170,6 +170,7 @@ class accounts(commands.Cog):
     
     async def get_sorted_players(self):
         bans_list = await self.get_banned_users()
+        print(bans_list)
         records_length = await db.records.count_documents({})
         records = await db.records.find().to_list(length=records_length)
         levels_length = await db.records.count_documents({})
