@@ -19,7 +19,7 @@ class accounts(commands.Cog):
         bans_list = await db.bans.find({}).to_list(length=None)
         bans_list = [ban['uid'] for ban in bans_list]
         print(bans_list)
-        accounts_list = [acc['gd'] for acc in accounts_list if (acc['discord'] in bans_list)]
+        accounts_list = [acc['gd'] for acc in accounts_list if (int(acc['discord']) in bans_list)]
         return accounts_list
     
     @commands.command(name='account', aliases=['player', 'user', 'creator', 'verifier', 'acc'])
