@@ -14,6 +14,13 @@ class accounts(commands.Cog):
         self.bot = bot
         self.config = bot.config
     
+    async def get_banned_users(self):
+        accounts_list = await db.accounts.find({'verified': True}).to_list(length=None)
+        bans_list = await db.bans.find({}).to_list(length=None)
+        bans_list = [ban['uid'] for ban in bans_list]
+        accounts_list = [acc['gd'] for acc in accounts_list if (acc['discord'] not in bans_list)]
+        return accounts_list
+    
     @commands.command(name='account', aliases=['player', 'user', 'creator', 'verifier', 'acc'])
     async def account(self, ctx, *, user=None):
         if user:
@@ -162,6 +169,7 @@ class accounts(commands.Cog):
         await ctx.send('**Success!** Your account was successfully created. Use `,account` to view your new account.')
     
     async def get_sorted_players(self):
+        bans_list = await self.get_banned_users()
         records_length = await db.records.count_documents({})
         records = await db.records.find().to_list(length=records_length)
         levels_length = await db.records.count_documents({})
@@ -172,10 +180,12 @@ class accounts(commands.Cog):
             level = [l for l in levels if (l['name'].lower() == record['challenge'].lower()) and record['status'] == 'approved']
             if not level: continue
             placement = level[0]['placement']
-            if record['player'] in records_list:
-                records_list[record['player']] += (-(.08*placement-6)**3+5)
-            else:
-                records_list[record['player']] = (-(.08*placement-6)**3+5)
+            if record['player'] not in bans_list:
+                if record['player'] in records_list:
+                    records_list[record['player']] += (-(.08*placement-6)**3+5)
+                else:
+                    records_list[record['player']] = (-(.08*placement-6)**3+5)
+        
         
         sorted_list = {key: value for key, value in sorted(records_list.items(), key=lambda item: item[1], reverse=True)}
         return sorted_list
