@@ -42,10 +42,9 @@ class daily(commands.Cog):
         return user
     
     @commands.command(name='stars', aliases=['coolstars', 'blobstars'])
-    @commands.has_role('Daily Manager')
     async def coolstars(self, ctx, user=None):
         if not user:
-            return await ctx.send('Please provide both a user to add points to and a point value. Examples:\n`,remove_stars paqoe 3`\n`,add_stars "Nyan Cat" 4`')
+            return await ctx.send('Please provide a user.')
         user=str(user).lower()
         try:
             f = await db.stars.find_one({
