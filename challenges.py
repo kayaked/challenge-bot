@@ -255,7 +255,7 @@ class challenges(commands.Cog):
             video_id = result['video'].split('?v=')[-1]
 
         victors = await db.records.find({'challenge': result['name']}).to_list(length=100)
-        victor_field = ', '.join([f'[{i["player"]}]({i["video"]})' for i in victors if i['player'] != result['verifier'] and i['status'] == 'approved'] and i['player'] not in banned_list)
+        victor_field = ', '.join([f'[{i["player"]}]({i["video"]})' for i in victors if i['player'] != result['verifier'] and i['status'] == 'approved' and i['player'] not in banned_list])
         
         if result['placement'] <= 50:
             points = '%.2f' % (-(.08*result['placement']-6)**3+5)
