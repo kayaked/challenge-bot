@@ -13,6 +13,14 @@ class challenges(commands.Cog):
         self.bot = bot
         self.config = bot.config
     
+    async def get_banned_users(self):
+        accounts_list = await db.accounts.find({'verified': True}).to_list(length=None)
+        bans_list = await db.bans.find({}).to_list(length=None)
+        bans_list = [ban['uid'] for ban in bans_list]
+        print(bans_list)
+        accounts_list = [acc['gd'] for acc in accounts_list if (int(acc['discord']) in bans_list)]
+        return accounts_list
+    
     async def log_level(self, lvtype, level):
         title = lvtype.capitalize()
 
@@ -221,6 +229,7 @@ class challenges(commands.Cog):
     
     @commands.command(name='challenge', aliases=['chall', 'level'])
     async def view_challenge(self, ctx, *, query=None):
+        banned_list = await self.get_banned_users()
         if not query:
             return await ctx.send('Oops! No search terms were specified.')
         results = await db.levels.find({'$text': {'$search': query}}).to_list(length=10)
@@ -246,7 +255,7 @@ class challenges(commands.Cog):
             video_id = result['video'].split('?v=')[-1]
 
         victors = await db.records.find({'challenge': result['name']}).to_list(length=100)
-        victor_field = ', '.join([f'[{i["player"]}]({i["video"]})' for i in victors if i['player'] != result['verifier'] and i['status'] == 'approved'])
+        victor_field = ', '.join([f'[{i["player"]}]({i["video"]})' for i in victors if i['player'] != result['verifier'] and i['status'] == 'approved'] and i['player'] not in banned_list)
         
         if result['placement'] <= 50:
             points = '%.2f' % (-(.08*result['placement']-6)**3+5)
