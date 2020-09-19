@@ -24,6 +24,7 @@ class accounts(commands.Cog):
     
     @commands.command(name='account', aliases=['player', 'user', 'creator', 'verifier', 'acc'])
     async def account(self, ctx, *, user=None):
+        bans_list = await self.get_banned_users()
         if user:
             if user.startswith('<@') and user.endswith('>'):
                 user = ctx.guild.get_member(int(''.join([i for i in user if i.isdigit()])))
@@ -129,6 +130,8 @@ class accounts(commands.Cog):
                     )
             else:
                 embed.set_footer(text='Alert: This account is unverified and was searched by list records.')
+        if username in bans_list:
+            embed.set_footer(text='Alert: This user is banned from the Challenge List. All records shown here are considered invalid as of now and are not legitimate completions.')
 
         await ctx.send(embed=embed)
     
