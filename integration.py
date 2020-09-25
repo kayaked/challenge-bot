@@ -131,7 +131,7 @@ class accounts(commands.Cog):
             else:
                 embed.set_footer(text='Alert: This account is unverified and was searched by list records.')
         if username in bans_list:
-            embed.set_footer(text='Alert: This user is banned from the Challenge List. All records shown here are considered invalid as of now and are not legitimate completions.')
+            embed.set_footer(text='Alert: This user is banned from the Challenge List. All records shown here are not considered legitimate completions and are invalid as of now.')
 
         await ctx.send(embed=embed)
     
