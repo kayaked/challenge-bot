@@ -318,6 +318,11 @@ class accounts(commands.Cog):
         unchecked = await db.records.find({'status': 'submitted'}).to_list(length=None)
         unchecked_formatted = ['**' + record.get('challenge', 'N/A') + '** by ' + record.get('player', 'N/A') + ' (#' + str(int(record.get('_id', 0))) + ')' for record in unchecked]
         message_of_submissions = '**List of challenges unreviewed by the team:**\n' + '\n'.join(unchecked_formatted)
+        if len(message_of_submissions) > 1990:
+            sm_list = [message_of_submissions[i:i+2000] for i in range(0, len(message_of_submissions), 2000)]
+            for i_n in sm_list:
+                await ctx.send(i_n)
+            return
         await ctx.send(message_of_submissions)
     
     @commands.command(name='record')
