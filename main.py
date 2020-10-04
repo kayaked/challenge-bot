@@ -19,7 +19,7 @@ def footer(author):
     structure= {
         **discord.Embed(timestamp=datetime.datetime.today()).to_dict(),
         'footer':{
-            'text':f'{str(author)} | {str(author.id)}'
+            'text':f'{str(author.id)}'
         }
     }
     return structure
