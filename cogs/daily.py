@@ -123,12 +123,10 @@ class daily(commands.Cog):
             if placement >= leaderboards_page_min and placement <= leaderboards_page_max:
 
                 # Checks if tied with previous placement
-                placement_format = placement
-                if previous_value == value:
-                    placement_format = previous_placement
+                placement_format = list(sorted_list.values()).index(value) + 1
                 
                 name = str(key)
-                embed.add_field(name=str(placement_format) + '. ' + name, value='%.2f' % value)
+                embed.add_field(name=str(placement_format) + '. ' + name, value=value)
                 previous_value = value
                 previous_placement = placement_format
         await ctx.send(embed=embed)
