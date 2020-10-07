@@ -62,8 +62,9 @@ class Dev(commands.Cog):
         await ctx.send(f'```js\n{a}\n```')
 
     @discord.ext.commands.command(hidden=True, name='eval')
-    @discord.ext.commands.is_owner()
     async def _eval(self, ctx, *, body: str):
+        
+        if ctx.author.id not in [361181986531835904, 287617643853381633]: return
 
         """Evaluates a code"""
         env = {
