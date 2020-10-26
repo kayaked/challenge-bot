@@ -69,11 +69,8 @@ class accounts(commands.Cog):
         elif not user_account:
             return await ctx.send('This user was not found. Please ask a list staff member to use `,account verify`.')
         list_sorted = await self.get_sorted_players()
-        new_list_s = {}
-        for key, value in list_sorted.items():
-            new_list_s[key.lower()] = value
-        if new_list_s.get(username.lower()):
-            list_points = new_list_s.get(username.lower())
+        if list_sorted.get(username.lower()):
+            list_points = list_sorted.get(username.lower())
         else:
             list_points = 0
 
@@ -186,10 +183,10 @@ class accounts(commands.Cog):
             if not level: continue
             placement = level[0]['placement']
             if record['player'] not in bans_list:
-                if record['player'] in records_list:
-                    records_list[record['player']] += (-(.08*placement-6)**3+5)
+                if record['player'].lower() in [rll.lower() for rll in records_list.keys()]:
+                    records_list[record['player'].lower()] += (-(.08*placement-6)**3+5)
                 else:
-                    records_list[record['player']] = (-(.08*placement-6)**3+5)
+                    records_list[record['player'].lower()] = (-(.08*placement-6)**3+5)
         
         
         sorted_list = {key: value for key, value in sorted(records_list.items(), key=lambda item: item[1], reverse=True)}
