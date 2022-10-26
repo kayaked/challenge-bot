@@ -36,7 +36,7 @@ def level(placement):
     try:
         pl = int(placement)
     except:
-        return json.dumps({'error': 'dumbfuck'})
+        return json.dumps({'error': '.'})
     level = db.levels.find_one({'placement': pl})
     level['_id'] = str(level['_id'])
     records = list(db.records.find({'challenge': level['name']}))
