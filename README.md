@@ -1,2 +1,2 @@
 # challenge-bot
-j money does it again
+Discord Bot for the Official Challenge List server. Deprecated by https://challengelist.gd/ and no longer in use.
